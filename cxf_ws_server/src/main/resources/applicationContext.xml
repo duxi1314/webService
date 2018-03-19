@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:soap="http://cxf.apache.org/bindings/soap"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/tx
+               http://www.springframework.org/schema/tx/spring-tx.xsd
+              http://cxf.apache.org/bindings/soap 
+              http://cxf.apache.org/schemas/configuration/soap.xsd
+              http://cxf.apache.org/jaxws 
+              http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- 注册提供webService服务的对象 -->
+	<bean id="serviceBean" class="com.itheima.ws.service.impl.UserServiceImpl"></bean>
+	<!-- 发布web服务 -->
+	<jaxws:server address="/userService">
+		<jaxws:serviceBean>
+			<ref bean="serviceBean" />
+		</jaxws:serviceBean>
+		<!-- 拦截请求信息 -->
+		<jaxws:inInterceptors>
+			<bean class=" org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+		</jaxws:inInterceptors>
+
+		<!-- 拦截响应信息 -->
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+		</jaxws:outInterceptors>
+	</jaxws:server>
+</beans>
